@@ -768,4 +768,26 @@
 (define-syntax %which-til (syntax-rules () ((_ x expr) (letrec ((loop (lambda() (let ((moo (%more))) (if (not moo) (display "") (begin (display moo) (newline) (loop))))))) (begin (display (%which x expr)) (newline) (loop))))))
 
 (define-syntax ? (syntax-rules () ((_ x ...) (%which-til x ...))))
+;list-of-sol: return list of all answer to a query
+;query is input under the form of an s-expression and then evaled inside of the function
+(define (list-of-sol query)
+  (define (accum ls val)
+    (if (not val) ls
+        (accum (cons val ls) (%more))))
+  (let ((sols (list (eval query))))
+    (accum sols (%more))))
+
+(define (findall query)
+  (map cadar (list-of-sol query)))
+(define %q '(%which (L) (%append '(1 2) '(3 4) L)))
+(define %findall
+  (let ((res (findall %q)))
+   (%rel (xs) [(xs) (%is xs res)])))
+
+
+
+
+
+
+
 
