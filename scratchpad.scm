@@ -36,6 +36,7 @@
        (%rel (x y z w)
 	 [('() y y) (%== y y)]
 	 [((cons x y) z w)
+	   (%/== (cons x y) '())
 	   (revaux y
 	     (cons x z) w)])])
     (%rel (x y)
