@@ -1,4 +1,4 @@
-;(load "./schelog.scm")
+(load "./schelog.scm")
 
 (%which () %fail)
 
@@ -37,12 +37,7 @@
 	 [('() y y) (%== y y)]
 	 [((cons x y) z w)
 	   (revaux y
-	     (cons x z) w)]
-         [(y y '())]
-      	 [(w z (cons x y))
-	   (revaux w
-	     (cons x z) y)]
-         )])
+	     (cons x z) w)])])
     (%rel (x y)
       [(x y) (revaux x '() y)])))
 
