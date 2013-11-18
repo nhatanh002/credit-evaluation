@@ -18,8 +18,8 @@
         [('mortage 'client1 12000)]
         [('documents 'client1 14000)]))
 
-;(define %ok-profile
-;  (%rel () [('client1)]))
+(define %ok-profile
+  (%rel () [('client1)]))
 
 (define %value
   (%rel ()
@@ -193,4 +193,51 @@
 
 
         
-        
+;;collateral rating
+
+(define %collateral_percent
+  (%rel (type client total collateral value x xs sum)
+        [(type client total value)
+         (%bag-of x (%and (%collateral collateral type)
+                          (%amount collateral client x))
+                  xs)
+         (%sumlist xs sum)
+         (%is value (/ (* sum 100)
+                       total))]))
+
+(define %collateral_profile
+  (%rel (client first_class second_class illiquid credit)
+         [(client first_class second_class illiquid)
+          (%requested-credit client credit)
+          (%collateral_percent 'first_class client credit first_class)
+          (%collateral_percent 'second_class client credit second_class)
+          (%collateral_percent 'illiquid client credit illiquid)]))
+
+(define %collateral_rating
+  (%rel (client rating first_class second_class illiquid)
+        [(client rating)
+         (%collateral_profile client first_class second_class illiquid)
+         (%collateral_evaluation first_class second_class illiquid rating)]))
+          
+;;;Expert System main query
+;;credit(Client, Answer/Suggestion)
+
+(define %credit
+  (%rel (client suggestion collateral-rating financial-rating +yield)
+        [(client collateral-rating financial-rating +yield suggestion)
+         (%ok-profile client)
+         (%collateral_rating client collateral-rating)
+         (%financial_rating client financial-rating)
+         (%bank-yield client +yield)
+         (%evaluate (profile collateral-rating financial-rating +yield)
+                    suggestion)]))
+
+
+
+
+
+
+
+
+
+
