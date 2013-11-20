@@ -6,6 +6,9 @@
 ;1989, revised Feb. 1993, Mar. 1997
 
 ;logic variables and their manipulation
+(module schelog * 
+	(import chicken scheme r5rs extras lolevel utils ports data-structures posix readline srfi-1 srfi-4 srfi-13 srfi-14 srfi-18 srfi-69)
+	
 
 (define schelog:*ref* "ref")
 
@@ -702,14 +705,16 @@
 
 (define %if-then-else
   (lambda (p q r)
+    (let ((! _))
     (%cut-delimiter
       (%or
 	(%and p ! q)
-	r))))
+	r)))))
 
 ;the above could also have been written in a more
 ;Prolog-like fashion, viz.
 
+#|
 '(define %member
   (%rel (x xs y ys)
     ((x (cons x xs)))
@@ -719,6 +724,7 @@
   (%rel (p q r)
     ((p q r) p ! q)
     ((p q r) r)))
+|#
 
 (define %append
   (%rel (x xs ys zs)
@@ -768,9 +774,24 @@
 (define-syntax %which-til (syntax-rules () ((_ x expr) (letrec ((loop (lambda() (let ((moo (%more))) (if (not moo) (display "") (begin (display moo) (newline) (loop))))))) (begin (display (%which x expr)) (newline) (loop))))))
 
 (define-syntax ? (syntax-rules () ((_ x ...) (%which-til x ...))))
+
+;;strip-duplicate
+;;stripping duplicated resulting relations
+
+(define (strip-duplicates ls)
+  (let loop ((rest ls)
+             (so-far '()))
+    (if (null? rest)
+        so-far
+        (loop (cdr rest)
+              (let ((first (car rest)))
+                (if (member first (cdr rest))
+                    so-far
+                    (cons first so-far)))))))
+)       
 ;list-of-sol: return list of all answer to a query
 ;query is input under the form of an s-expression and then evaled inside of the function
-(define (list-of-sol query)
+#| (define (list-of-sol query)  
   (define (accum ls val)
     (if (not val) ls
         (accum (cons val ls) (%more))))
@@ -778,16 +799,11 @@
     (accum sols (%more))))
 
 (define (findall query)
-  (map cadar (list-of-sol query)))
+  (strip-duplicates (map cadar (list-of-sol query))))
+
 (define %q '(%which (L) (%append '(1 2) '(3 4) L)))
 (define %findall
   (let ((res (findall %q)))
-   (%rel (xs) [(xs) (%is xs res)])))
-
-
-
-
-
-
+   (%rel (xs) [(xs) (%is xs res)]))) |#
 
 

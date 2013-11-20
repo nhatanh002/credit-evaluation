@@ -1,5 +1,13 @@
 /* credit(Client,Answer):-
 	Answer is the reply to a request by Client for Credit */
+
+info(Client,CollateralRating,FinancialRating,Yield,Answer) :-
+	ok_profile(Client),
+	collateral_rating(Client,CollateralRating),
+	financial_rating(Client,FinancialRating),
+	bank_yield(Client,Yield),
+	evaluate(profile(CollateralRating,FinancialRating,Yield),Answer).
+
 credit(Client,Answer) :-
 	ok_profile(Client),
 	collateral_rating(Client,CollateralRating),

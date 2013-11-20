@@ -1,6 +1,6 @@
 ;;sample data
-;;old version
-#|(define %bank-yield
+;;deprecated version
+#| (define %bank-yield
   (%rel ()
         [('client1 'excellent)]))
 
@@ -28,9 +28,8 @@
          [('gross_profits_on_sales 'client1 45)]
          [('short_term_debt_per_annual_sales 'client1 9)]))
 |# 
-;; new data scheme
-(load "schelog.scm")
 
+#|
 (define %userdb
   (%rel ()
         [('client1 ;a
@@ -48,36 +47,66 @@
          '(last_year_sales_growth . 20) ;n
          '(gross_profits_on_sales . 45) ;p
          '(short_term_debt_per_annual_sales . 9) ;q
-         )]))
+         )]
+        
+        [('client2 ;a
+         '(local_currency_deposits . 3000) ;b
+         '(foreign_currency_deposits . 2000) ;c
+         '(bank_guarantees . 300) ;d
+         '(negotiate_instruments . 500) ;e
+         '(stocks . 900) ;f
+         '(mortage . 1200) ;g
+         '(documents . 1400) ;h
+         '(bank-yield . excellent) ;i
+         '(requested-credit . 5000) ;k
+         'ok-profile ;l
+         '(net_worth_per_assets . 4) ;m
+         '(last_year_sales_growth . 2) ;n
+         '(gross_profits_on_sales . 4) ;p
+         '(short_term_debt_per_annual_sales . 39) ;q
+         )]
+        ))  
+|#
+#|(define (read-db filename)
+  (define (read-a-list filename)
+  (call-with-input-file filename
+    (lambda (k) (read k))))
+  (let ((fun (lambda (ls) `(define %userdb (%rel () ,ls))))
+        (template  (read-a-list filename)))
+    (eval (fun template))))|#
 
-(define %ok-profile
-  (%rel (a b c d e f g h i k l m n p q)
-        [(a)
-         (%userdb a b c d e f g h i k 'ok-profile m n p q)]))
+;; new data scheme
+(load "schelog.scm")
+(module database (%userdb read-db)
+	(import chicken scheme r5rs extras lolevel utils ports data-structures posix readline srfi-1 srfi-4 srfi-13 srfi-14 srfi-18 srfi-69)
+	(import schelog)
+(define %userdb %empty-rel)
+(set! *schelog-use-occurs-check?* #t)
+(define (read-db filename)
+  (define (read-a-list filename)
+  (call-with-input-file filename
+    (lambda (k) (read k))))
+  (set! %userdb %empty-rel)
+  (let ((fun (lambda (ls) (eval (list '%assert '%userdb '() ls))))
+        (template (cdr (read-a-list filename)))
+	(check-db (lambda (ls mem)
+		    (if (member (cadaar mem) ls) (begin 
+						   (display "[WARNING!] Duplicated entries for user: ")
+						   (display (cadaar mem))
+						   (newline)
+						   ls)
+		      (cons (cadaar mem) ls)))))
+    (display "[ADDED] ") 
+    (display (reverse (foldl check-db '() template)))
+    (newline)
+    (map fun template)))
+)
 
-(define %bank-yield
-  (%rel (yield= a b c d e f g h i k l m n p q)
-        [(a yield=)
-         (%userdb a b c d e f g h (cons 'bank-yield yield=) k l m n p q)]))
+(import database schelog)
+(read-db "data")
 
-(define %requested-credit
-  (%rel (credit= a b c d e f g h i k l m n p q)
-        [(a credit=)
-         (%userdb a b c d e f g h i (cons 'requested-credit credit=) l m n p q)]))
-
-(define %value
-  (%rel (a b c d e f g h i k l m n p q val)
-        [('net_worth_per_assets a val)
-         (%userdb a b c d e f g h i k l (cons 'net_worth_per_assets val) n p q)]
-        [('last_year_sales_growth a val)
-         (%userdb a b c d e f g h i k l m (cons 'last_year_sales_growth val) p q)]
-        [('gross_profits_on_sales a val)
-                  (%userdb a b c d e f g h i k l m n (cons 'gross_profits_on_sales val) q)]
-        [('short_term_debt_per_annual_sales a val)
-                           (%userdb a b c d e f g h i k l m n p (cons 'short_term_debt_per_annual_sales val))
-         ]))
-
-
+(module selector (%amount %value %ok-profile %bank-yield %requested-credit)
+	(import database schelog chicken scheme r5rs)
 (define %amount
   (%rel (a b c d e f g h i k l m n p q val)
         [('local_currency_deposits a val)
@@ -95,9 +124,42 @@
         [('documents a val)
          (%userdb a b c d e f g (cons 'documents val) i k l m n p q)]))
 
+(define %value
+  (%rel (a b c d e f g h i k l m n p q val)
+        [('net_worth_per_assets a val)
+         (%userdb a b c d e f g h i k l (cons 'net_worth_per_assets val) n p q)]
+        [('last_year_sales_growth a val)
+         (%userdb a b c d e f g h i k l m (cons 'last_year_sales_growth val) p q)]
+        [('gross_profits_on_sales a val)
+                  (%userdb a b c d e f g h i k l m n (cons 'gross_profits_on_sales val) q)]
+        [('short_term_debt_per_annual_sales a val)
+                           (%userdb a b c d e f g h i k l m n p (cons 'short_term_debt_per_annual_sales val))
+         ]))
+
+(define %ok-profile
+  (%rel (a b c d e f g h i k prof m n p q)
+        [(a prof)
+         (%userdb a b c d e f g h i k (cons 'ok-profile prof) m n p q)]))
+
+(define %bank-yield
+  (%rel (yield= a b c d e f g h i k l m n p q)
+        [(a yield=)
+         (%userdb a b c d e f g h (cons 'bank-yield yield=) k l m n p q)]))
+
+(define %requested-credit
+  (%rel (credit= a b c d e f g h i k l m n p q)
+        [(a credit=)
+         (%userdb a b c d e f g h i (cons 'requested-credit credit=) l m n p q)]))
+
+)
+
+(import selector)
+
+
 ;;;;
 
 ;;(evaluate Profile Outcome)
+
 (define (condition Type Test Rating)
   (vector 'condition Type Test Rating))
 
@@ -114,13 +176,22 @@
                  (condition 'finances '= 'good)
                  (condition 'yield '>= 'reasonable))
            'consult_superior)]
+        [( (list (condition 'collateral '> 'good)
+                 (condition 'finances '< 'good)
+                 (condition 'yield '>= 'reasonable))
+           'consult_superior)]
+        [( (list (condition 'collateral '> 'good)
+                 (condition 'finances '< 'good)
+                 (condition 'yield '< 'reasonable))
+           'refuse_credit)]
         [( (list (condition 'collateral '=< 'moderate)
-                 (condition 'finances '=< 'medium))
+                 (condition 'finances '=< 'medium)
+                 _ )
            'refuse_credit)]))
 
 (define %scale
   (%rel ()
-        [('collateral (list 'excellent 'good 'moderate))]
+        [('collateral (list 'excellent 'good 'moderate 'bad))]
         [('finances (list 'excellent 'good 'medium 'bad))]
         [('yield (list 'excellent 'reasonable 'poor))]))
 
@@ -142,7 +213,8 @@
 
 (define %precedes
   (%rel (r1 r2 rs r)
-        [((cons r1 rs) r1 r2)]
+        [((cons r1 rs) r1 r2)
+	 (%/== r1 r2)]
         [((cons r rs) r1 r2)
          (%/== r r2)
          (%precedes rs r1 r2)]))
@@ -172,10 +244,12 @@
          (%verify +conditions +profile)]))
 
 (define %evaluate
-  (%rel (+profile answer +conditions)
-        [(+profile answer)
+  (%rel (+profile answer +conditions ok-profile?)
+        [(+profile 'ok answer)
          (%rule +conditions answer)
-         (%verify +conditions +profile)]))
+         (%verify +conditions +profile)]
+	[(_ 'not-ok 'refuse_credit)]
+	))
 
 ;; Bank data - Weighting Factors
 (define %score
@@ -201,7 +275,7 @@
          (%<= score -500)]
         [(score 'medium)
          (%> score -500)
-         (%< score 500)]
+         (%< score 150)]
         [(score 'good)
          (%>= score 150)
          (%< score 1000)]
@@ -245,7 +319,7 @@
          (%< sum1 70)
          (%>= sum2 100)]
 
-        [(first_class second_class illiquid 'medium)
+        [(first_class second_class illiquid 'moderate)
          (%is sum1 (+ first_class second_class))
          (%is sum2 (+ first_class second_class illiquid))
          (%<= sum1 60)
@@ -285,28 +359,72 @@
          (%collateral_profile client first_class second_class illiquid)
          (%collateral_evaluation first_class second_class illiquid rating)]))
           
-;;;Expert System main query
+;;;Expert System query module
 ;;credit(Client, Answer/Suggestion)
 
-(define %credit
-  (%rel (client suggestion collateral-rating financial-rating +yield)
-        [(client collateral-rating financial-rating +yield suggestion)
-         (%ok-profile client)
+;utility: query all answers, strip duplicates
+(define (query-strip query)
+  (define (accum ls val)
+    (if (not val) ls
+        (accum (cons val ls) (%more))))
+  (let ((sols (list query)))
+    (strip-duplicates (accum sols (%more)))))
+
+;query for user's statistics
+(define %info
+  (%rel (client collateral-rating financial-rating +yield prof)
+        [(client prof collateral-rating financial-rating +yield)
+         (%ok-profile client prof)
          (%collateral_rating client collateral-rating)
          (%financial_rating client financial-rating)
          (%bank-yield client +yield)
-         (%evaluate (profile collateral-rating financial-rating +yield)
+         ]))
+
+;main query: query for stats and suggestion
+(define %credit
+  (%rel (client suggestion collateral-rating financial-rating +yield prof)
+        [(client prof collateral-rating financial-rating +yield suggestion)
+         (%ok-profile client prof)
+         (%collateral_rating client collateral-rating)
+         (%financial_rating client financial-rating)
+         (%bank-yield client +yield)
+         (%evaluate (profile collateral-rating financial-rating +yield) prof
                     suggestion)]))
 
+;query procedure. returns the stats and suggestion for 'client'.
+;remove duplicates.
+(define (es:query client)
+  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
+                             (%and (%credit client Ok-profile? Collateral-rating= Financial-rating= Yield= Suggestion=)
+                                   (%is Client= client)
+                                   (%requested-credit client Requested=)))))
+    (query-strip query)))
 
-(define (es:query client) (? (Client= Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
+(define (es:info client)
+  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
+                             (%and (%info client Ok-profile? Collateral-rating= Financial-rating= Yield=)
+                                   (%is Client= client)
+                                   (%requested-credit client Requested=)))))
+    (query-strip query)))
+
+;;;deprecated procedures
+#|(define (es:query client) (%which (Client= Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
                              (%and (%credit client Collateral-rating= Financial-rating= Yield= Suggestion=)
                                    (%is Client= client)
                                    (%requested-credit client Requested=))))
 
+(define (es:info client) (%which (Client= Requested= Collateral-rating= Financial-rating= Yield=)
+                             (%and (%info client Collateral-rating= Financial-rating= Yield=)
+                                   (%is Client= client)
+                                   (%requested-credit client Requested=))))
 
-
-
-
-
-
+(define (es:query-strip-depre client)
+  (define (accum ls val)
+    (if (not val) ls
+        (accum (cons val ls) (%more))))
+  (let ((sols (list (%which (Client= Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
+                             (%and (%credit client Collateral-rating= Financial-rating= Yield= Suggestion=)
+                                   (%is Client= client)
+                                   (%requested-credit client Requested=))))))
+    (strip-duplicates (accum sols (%more)))))
+|#

@@ -65,12 +65,12 @@
 (define ls2 ((lambda(x) x) ls1))
 (set-car! ls2 'a)
 
-(define (write-a-list ls)
-  (call-with-output-file "./list-store"
+(define (write-a-list ls filename)
+  (call-with-output-file filename
     (lambda (k) (write ls k))))
 
-(define (read-a-list)
-  (call-with-input-file "./list-store"
+(define (read-a-list filename)
+  (call-with-input-file filename
     (lambda (k) (read k))))
 
 
@@ -151,3 +151,22 @@
          
 
 (? (a b c d e f g h i k l m n p q) (%userdb a b c d e f g h i k l m n p q))
+
+(define %userdb %empty-rel)
+(define (read-db filename)
+  (define (read-a-list filename)
+  (call-with-input-file filename
+    (lambda (k) (read k))))
+  (let ((fun (lambda (ls) (eval (list '%assert '%userdb '() ls))))
+        (template (cdr (read-a-list filename))))
+    (map fun template)))
+
+
+
+
+
+
+
+
+
+
