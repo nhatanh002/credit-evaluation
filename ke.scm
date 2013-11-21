@@ -18,7 +18,7 @@
 
 ;bank data and rules
 (define %rule
-  (%rel ()
+  (%rel (any)
         [( (list (condition 'collateral '>= 'excellent)
               (condition 'finances '>= 'good)
               (condition 'yield '>= 'reasonable))
@@ -45,7 +45,7 @@
            'refuse_credit)]
         [( (list (condition 'collateral '=< 'moderate)
                  (condition 'finances '=< 'medium)
-                 _ )
+                 any )
            'refuse_credit)]))
 
 (define %scale
@@ -103,11 +103,11 @@
          (%verify +conditions +profile)]))
 
 (define %evaluate
-  (%rel (+profile answer +conditions ok-profile?)
+  (%rel (+profile answer +conditions ok-profile? any)
         [(+profile 'ok answer)
          (%rule +conditions answer)
          (%verify +conditions +profile)]
-	[(_ 'not-ok 'refuse_credit)]
+	[(any 'not-ok 'refuse_credit)]
 	))
 
 ;; Bank data - Weighting Factors
