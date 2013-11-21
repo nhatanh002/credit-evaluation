@@ -31,8 +31,16 @@
                  (condition 'finances '< 'good)
                  (condition 'yield '>= 'reasonable))
            'consult_superior)]
+        [( (list (condition 'collateral '< 'good)
+                 (condition 'finances '> 'good)
+                 (condition 'yield '>= 'reasonable))
+           'consult_superior)]
         [( (list (condition 'collateral '> 'good)
                  (condition 'finances '< 'good)
+                 (condition 'yield '< 'reasonable))
+           'refuse_credit)]
+                [( (list (condition 'collateral '< 'good)
+                 (condition 'finances '> 'good)
                  (condition 'yield '< 'reasonable))
            'refuse_credit)]
         [( (list (condition 'collateral '=< 'moderate)
@@ -257,4 +265,3 @@
                                    (%is Client= client)
                                    (%requested-credit client Requested=)))))
     (query-strip query)))
-

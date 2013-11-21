@@ -7,10 +7,10 @@
 (%which () (%=:= 1 1))
 
 (define %appendo
-  (%rel (H L1 L2 T)
-        [('() L2 L2)]
-        [((cons H L1) L2 (cons H T))
-         (%appendo L1 L2 T)]))
+  (%rel (H L1 L2 T) ;"construct" new logic variables H, L1, L2, T to use in the relation
+        [('() L2 L2)] ;appendo([],L2,L2).
+        [((cons H L1) L2 (cons H T)) ;appendo([H|L1], L2, [H|T]) :-
+         (%appendo L1 L2 T)]))       ;  appendo(L1,L2,T).
 
 (%which-til (L1 L2) (%appendo L1 L2 '(1 2 3 4 5 6)))
 
@@ -34,13 +34,13 @@
   (letrec
     ([revaux
        (%rel (x y z w)
-	 [('() y y) (%== y y)]
-	 [((cons x y) z w)
-	   (%/== (cons x y) '())
+	 [('() y y)] ;reverse([],Y,Y). Y = y
+	 [((cons x y) z w)     ;reverse([X|Y], Z, W) :- reverse(Y,[X|Z],W).
+	   (%/== (cons x y) '()) 
 	   (%/= z w)
-	   (revaux y
+	   (revaux y           
 	     (cons x z) w)])])
-    (%rel (x y)
+    (%rel (x y)                    ;reverse(X,Y) :- reverse(X,[],Y).
       [(x y) (revaux x '() y)])))
 
 ;(%which (L) (%reverse '(1 2 3) L))
@@ -49,14 +49,15 @@
   (%rel (X Y Z)
         [('elephant 'horse)]
         [('horse 'mouse)]))
-(define is-bigger
-  (%rel (X Y Z)
-        [(X Z)
-         (bigger X Z)]
-        [(X Z)
-         (bigger X Y)
-         (is-bigger Y Z)]))
-
+(define bigger
+  (%rel (X Y Z)        
+        [(X Z) 
+         (bigger X Y) 
+         (bigger Y Z)]))
+;fact: a(x) -> positive
+;goal: ~a(x) ... == ~a(x) (1)
+;rule: a(X) <- c(X) AND d(Y,X) == a(X) OR ~c(X) ~d(Y,X) (2)
+;resolve (1) (2) -> mgu(X = x), ~c(X) OR ~ d(Y,X) -> ~c(x) OR ~d(Y,x) -> ~(c(x) AND d(Y,x))
 (%which-til (X Z) (is-bigger X Z))
 (%which-til (X Y) (%and (%is Y 4) (%is X (+ 3.4 Y))))
 
@@ -77,8 +78,8 @@
 
 (define %fact
   (%rel (X Y Z T)
-        [(0 1)]        
-        [(X Y)
+        [(0 1)]  ;fact(0,1).      
+        [(X Y)   ;fact(X,Y) :- X > 0, T is X-1, Y is X*Z, fact(T,Z).
          (%> X 0)
          (%is T (- X 1))
          (%fact T Z)
@@ -161,8 +162,12 @@
         (template (cdr (read-a-list filename))))
     (map fun template)))
 
+(es:query 'client2)
 
-
+(%which (Client=) (%let (Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= ) 
+                              (%credit Client= Ok-profile? Collateral-rating= Financial-rating= Yield= 'give_credit))) 
+                                   ;(%is Client= client)
+                                   ;(%requested-credit Client= Requested=))))
 
 
 
