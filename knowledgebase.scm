@@ -2,15 +2,12 @@
 (require 'schelog)
 (require 'database)
 (require 'selector)
-(import database schelog)
-(import selector)
-
-
-(read-db "data")
 ;;;;
-
+(module knowledgebase *
+	(import chicken scheme extras r5rs database schelog selector)
 ;;(evaluate Profile Outcome)
 
+(read-db "data")
 (define (condition Type Test Rating)
   (vector 'condition Type Test Rating))
 
@@ -243,152 +240,5 @@
          (%bank-yield client +yield)
          (%evaluate (profile collateral-rating financial-rating +yield) prof
                     suggestion)]))
-
-;utility: query all answers, strip duplicates
-(define (query-strip query)
-  (define (accum ls val)
-    (if (not val) ls
-        (accum (cons val ls) (%more))))
-  (let ((sols (list query)))
-    (strip-duplicates (accum sols (%more)))))
-
-;query procedure. returns the stats and suggestion for 'client'.
-;remove duplicates.
-(define (es:query client)
-  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
-                             (%and (%credit client Ok-profile? Collateral-rating= Financial-rating= Yield= Suggestion=)
-                                   (%is Client= client)
-                                   (%requested-credit client Requested=)))))
-    (query-strip query)))
-
-(define (es:info client)
-  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
-                             (%and (%info client Ok-profile? Collateral-rating= Financial-rating= Yield=)
-                                   (%is Client= client)
-                                   (%requested-credit client Requested=)))))
-    (query-strip query)))
-
-;;explainer
-
-(define (es:collateral-explain client)
-  (display "The collateral rating of this client is this way because the rule for collateral rating is:\n")
-  (display "\t excellent if:\n")
-  (display "\t\t first_class >= 100% OR\n")
-  (display "\t\t first_class >= 70%, first_class + second_class >= 100%\n")
-  (display "\t good if:\n")
-  (display "\t\t 60% < first_class + second_class < 70%, first_class + second_class + illiquid >=100%\n")
-  (display "\t moderate if:\n")
-  (display "\t\t first_class + second_class <= 60%, first_class + second_class + illiquid >= 100%\n")
-  (display "\t else it's bad\n")
-
-  (display "And the three kinds of collateral ratio of the client are:\n")
-  (let* ((query (%which (first_class second_class illiquid)
-                      (%collateral_profile client first_class second_class illiquid)))
-         (res (query-strip query)))
-    (for-each (lambda(x) (display "\t") (display (car x)) (display " ") (display (cadr x)) (display "%") (newline)) (car res)))
-   (newline)
-   
-   (display "\tJust to be sure, the ratio of each type of collateral is calculated by the formula:\n 100*total-collateral-amount-of-this-type/requested-credit \(%\)\n")
-   (display "\tThe amount of this client's first class collateral is:\n")
-   (let* ((query (%which (collateral amount)
-                      (%and (%collateral collateral 'first_class)
-                            (%amount collateral client amount))))
-          (res (query-strip query))
-          )
-     (for-each (lambda(x)
-                 (display "\t\t")
-                 (display (cadar x))
-                 (display " ")
-                 (display (cadadr x))
-                 (newline))
-               res))
-
-   (display "\tAnd the amount of this client's second collateral is:\n")
-   (let* ((query (%which (collateral amount)
-                      (%and (%collateral collateral 'second_class)
-                            (%amount collateral client amount))))
-          (res (query-strip query))
-          )
-     (for-each (lambda(x)
-                 (display "\t\t")
-                 (display (cadar x))
-                 (display " ")
-                 (display (cadadr x))
-                 (newline))
-               res))
-
-   (display "\tAnd the amount of this client's illiquid collateral is:\n")
-   (let* ((query (%which (collateral amount)
-                      (%and (%collateral collateral 'illiquid)
-                            (%amount collateral client amount))))
-          (res (query-strip query))
-          )
-     (for-each (lambda(x)
-                 (display "\t\t")
-                 (display (cadar x))
-                 (display " ")
-                 (display (cadadr x))
-                 (newline))
-               res))
-   (display "\tAnd the requested credit of this client is:\n")
-   (let* ((query (%which (requested-credit)
-                         (%requested-credit client requested-credit)))   
-          (res (caar (query-strip query))))
-     (display "\t\t")
-     (display (car res))
-     (display " ")
-     (display (cadr res))
-     (newline))
-  (newline)
-  )
-
- 
-(define (es:financial-explain client)
-  (display "The financial rating of this client is this way because:\n")
-  (display "\tFirst of all, the financial factors considered and their respective weight are:\n")
-  (display "\t\tnet_worth_per_assets = 5\n\t\tlast_year_sales_growth = 1\n\t\tgross_profits_on_sales = 5\n\t\tshort_term_debt_per_annual_sales = 2\n")
-  (display "\tThe financial status of this client for each factor are:\n")
-  (let* ((query (%which (financial-factor value)
-                        (%value financial-factor client value)))
-         (res (query-strip query))
-         (fun (lambda(x)
-                (display "\t\t")
-                (display (cadar x))
-                (display " = ")
-                (display (cadadr x))
-                (display "%")
-                (newline))))
-    (for-each fun res))
-  (display "\tThus, the client's financial score, which is calculated all financial factors times their respective weight summed together, is: ")
-  (let* ((res (query-strip (%which (score)
-                        (%let (factors)
-                              (%and (%financial_factors factors)
-                                    (%score factors client 0 score))))))
-         (score (cadaar res))
-         (rating (cadaar (query-strip (%which (rate)
-                                      (%calibrate score rate)))))
-         )
-    (display (caaar res))
-    (display " = ")
-    (display score)
-    (newline)
-    (display "\tThe rule for calibrating the financial rating according to the client's score is:\n")
-    (display "\t\t excellent if score >= 1000\n")
-    (display "\t\t good if 150 <= score < 1000\n")
-    (display "\t\t medium if -500 < score < 150\n")
-    (display "\t\t bad if score <= -500")
-
-    (newline)
-    (display "\tThus the financial rating of the client is indeed ")
-    (display rating)
-    (newline))
-  )
-  
-
-
-
-
-
-
-
+)
 
