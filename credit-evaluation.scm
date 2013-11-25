@@ -1,0 +1,7 @@
+(require 'schelog)
+(require 'database)
+(require 'selector)
+(require 'knowledgebase)
+(require 'explainer)
+(import schelog database selector knowledgebase explainer)
+(read-db "data")

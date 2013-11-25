@@ -7,7 +7,6 @@
 	(import chicken scheme extras r5rs database schelog selector)
 ;;(evaluate Profile Outcome)
 
-(read-db "data")
 (define (condition Type Test Rating)
   (vector 'condition Type Test Rating))
 
