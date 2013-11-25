@@ -166,7 +166,7 @@
                    (display yie)
                    (display "\]\n")
                    (newline)
-                   (return sug)
+                   (return)
                    )))))
       
 )  
