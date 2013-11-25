@@ -287,8 +287,9 @@
          (res (query-strip query)))
     (for-each (lambda(x) (display "\t") (display (car x)) (display " ") (display (cadr x)) (display "%") (newline)) (car res)))
    (newline)
-
-   (display "\tJust to be sure, the amount of this client's first class collateral is:\n")
+   
+   (display "\tJust to be sure, the ratio of each type of collateral is calculated by the formula:\n 100*total-collateral-amount-of-this-type/requested-credit \(%\)\n")
+   (display "\tThe amount of this client's first class collateral is:\n")
    (let* ((query (%which (collateral amount)
                       (%and (%collateral collateral 'first_class)
                             (%amount collateral client amount))))
@@ -346,11 +347,47 @@
   (display "The financial rating of this client is this way because:\n")
   (display "\tFirst of all, the financial factors considered and their respective weight are:\n")
   (display "\t\tnet_worth_per_assets = 5\n\t\tlast_year_sales_growth = 1\n\t\tgross_profits_on_sales = 5\n\t\tshort_term_debt_per_annual_sales = 2\n")
+  (display "\tThe financial status of this client for each factor are:\n")
+  (let* ((query (%which (financial-factor value)
+                        (%value financial-factor client value)))
+         (res (query-strip query))
+         (fun (lambda(x)
+                (display "\t\t")
+                (display (cadar x))
+                (display " = ")
+                (display (cadadr x))
+                (display "%")
+                (newline))))
+    (for-each fun res))
+  (display "\tThus, the client's financial score, which is calculated all financial factors times their respective weight summed together, is: ")
+  (let* ((res (query-strip (%which (score)
+                        (%let (factors)
+                              (%and (%financial_factors factors)
+                                    (%score factors client 0 score))))))
+         (score (cadaar res))
+         (rating (cadaar (query-strip (%which (rate)
+                                      (%calibrate score rate)))))
+         )
+    (display (caaar res))
+    (display " = ")
+    (display score)
+    (newline)
+    (display "\tThe rule for calibrating the financial rating according to the client's score is:\n")
+    (display "\t\t excellent if score >= 1000\n")
+    (display "\t\t good if 150 <= score < 1000\n")
+    (display "\t\t medium if -500 < score < 150\n")
+    (display "\t\t bad if score <= -500")
 
-  
-  
+    (newline)
+    (display "\tThus the financial rating of the client is indeed ")
+    (display rating)
+    (newline))
   )
   
+
+
+
+
 
 
 
