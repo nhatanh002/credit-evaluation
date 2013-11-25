@@ -1,0 +1,69 @@
+[DATABASE
+[('client1 ;a
+         '(local_currency_deposits . 30000) ;b
+         '(foreign_currency_deposits . 20000) ;c
+         '(bank_guarantees . 3000) ;d
+         '(negotiate_instruments . 5000) ;e
+         '(stocks . 9000) ;f
+         '(mortage . 12000) ;g
+         '(documents . 14000) ;h
+         '(bank-yield . excellent) ;i
+         '(requested-credit . 50000) ;k
+         '(ok-profile . ok) ;l
+         '(net_worth_per_assets . 40) ;m
+         '(last_year_sales_growth . 20) ;n
+         '(gross_profits_on_sales . 45) ;p
+         '(short_term_debt_per_annual_sales . 9) ;q
+         )]
+
+[('client2 ;a
+         '(local_currency_deposits . 3000) ;b
+         '(foreign_currency_deposits . 2000) ;c
+         '(bank_guarantees . 300) ;d
+         '(negotiate_instruments . 500) ;e
+         '(stocks . 900) ;f
+         '(mortage . 1200) ;g
+         '(documents . 1400) ;h
+         '(bank-yield . excellent) ;i
+         '(requested-credit . 5000) ;k
+         '(ok-profile . ok) ;l
+         '(net_worth_per_assets . 4) ;m
+         '(last_year_sales_growth . 2) ;n
+         '(gross_profits_on_sales . 4) ;p
+         '(short_term_debt_per_annual_sales . 39) ;q
+         )]
+
+[('client3 ;a
+         '(local_currency_deposits . 3000) ;b
+         '(foreign_currency_deposits . 2000) ;c
+         '(bank_guarantees . 300) ;d
+         '(negotiate_instruments . 500) ;e
+         '(stocks . 900) ;f
+         '(mortage . 1200) ;g
+         '(documents . 1400) ;h
+         '(bank-yield . excellent) ;i
+         '(requested-credit . 20000) ;k
+         '(ok-profile . ok) ;l
+         '(net_worth_per_assets . 4) ;m
+         '(last_year_sales_growth . 2) ;n
+         '(gross_profits_on_sales . 4) ;p
+         '(short_term_debt_per_annual_sales . 39) ;q
+         )]
+
+[('client4 ;a
+         '(local_currency_deposits . 3000) ;b
+         '(foreign_currency_deposits . 2000) ;c
+         '(bank_guarantees . 300) ;d
+         '(negotiate_instruments . 500) ;e
+         '(stocks . 900) ;f
+         '(mortage . 1200) ;g
+         '(documents . 1400) ;h
+         '(bank-yield . 'good) ;i
+         '(requested-credit . 2000) ;k
+         '(ok-profile . not-ok) ;l
+         '(net_worth_per_assets . 4) ;m
+         '(last_year_sales_growth . 2) ;n
+         '(gross_profits_on_sales . 4) ;p
+         '(short_term_debt_per_annual_sales . 39) ;q
+         )]
+]
