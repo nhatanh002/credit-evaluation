@@ -342,7 +342,9 @@
   )
 
  
-
+(define (es:financial-explain client)
+  (display "The financial rating of this client is this way because the rule for collateral rating is:\n")
+  
 
 
 
