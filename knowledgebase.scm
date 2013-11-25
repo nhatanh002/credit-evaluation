@@ -1,8 +1,6 @@
-;; new data scheme
 (require 'schelog)
 (require 'database)
 (require 'selector)
-;;;;
 (module knowledgebase *
 	(import chicken scheme extras r5rs database schelog selector)
 ;;(evaluate Profile Outcome)
@@ -261,6 +259,16 @@
     (for-each fun (car (query-strip query)))
     (newline)(newline)))
 
+(define (es:outcome outcome)
+  (let ((query (%which (Client= Requested=)
+		       (%let (?Ok-profile= Collateral-rating= Financial-rating= Yield=)
+                             (%and (%credit Client= ?Ok-profile= Collateral-rating= Financial-rating= Yield= outcome)
+                                   (%requested-credit Client= Requested=)))))
+        (fun (lambda(x)
+               (for-each (lambda(y) (display y)) x)
+               (newline))))
+    (for-each fun (car (query-strip query)))
+    (newline)(newline)))
 
 (define (es:info client)
   (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
