@@ -4,32 +4,7 @@
 (require 'knowledgebase)
 (module explainer *
 	(import chicken scheme extras r5rs schelog database selector knowledgebase)
-;utility: query all answers, strip duplicates
-(define (query-strip query)
-  (define (accum ls val)
-    (if (not val) ls
-        (accum (cons val ls) (%more))))
-  (let ((sols (list query)))
-    (strip-duplicates (accum sols (%more)))))
-
-;query procedure. returns the stats and suggestion for 'client'.
-;remove duplicates.
-(define (es:query client)
-  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
-                             (%and (%credit client Ok-profile? Collateral-rating= Financial-rating= Yield= Suggestion=)
-                                   (%is Client= client)
-                                   (%requested-credit client Requested=)))))
-    (query-strip query)))
-
-(define (es:info client)
-  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
-                             (%and (%info client Ok-profile? Collateral-rating= Financial-rating= Yield=)
-                                   (%is Client= client)
-                                   (%requested-credit client Requested=)))))
-    (query-strip query)))
-
 ;;explainer
-
 (define (es:collateral-explain client)
   (display "The collateral rating of this client is this way because the rule for collateral rating is:\n")
   (display "\t excellent if:\n")
@@ -119,8 +94,7 @@
                 (display "%")
                 (newline))))
     (for-each fun res))
-  (display "\tThus, the client's financial score, which is calculated by summing together\n
-  all financial factors times their respective weight, is: ")
+  (display "\tThus, the client's financial score, which is calculated by summing together\n\tall financial factors times their respective weight, is: ")
   (let* ((res (query-strip (%which (score)
                         (%let (factors)
                               (%and (%financial_factors factors)
