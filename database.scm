@@ -1,6 +1,6 @@
 (require 'schelog)
 (module database (%userdb %user-list read-db)
-	(import chicken scheme r5rs extras lolevel utils ports data-structures posix readline srfi-1 srfi-4 srfi-13 srfi-14 srfi-18 srfi-69)
+	(import chicken scheme r5rs extras readline)
 	(import schelog)
 (define %userdb %empty-rel)
 (define %user-list '())

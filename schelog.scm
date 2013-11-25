@@ -7,7 +7,7 @@
 
 ;logic variables and their manipulation
 (module schelog * 
-	(import chicken scheme r5rs extras lolevel utils ports data-structures posix readline srfi-1 srfi-4 srfi-13 srfi-14 srfi-18 srfi-69)
+	(import chicken scheme r5rs extras )
 	
 
 (define schelog:*ref* "ref")
