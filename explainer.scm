@@ -3,7 +3,7 @@
 (require 'selector)
 (require 'knowledgebase)
 (module explainer *
-	(import chicken scheme extras r5rsi schelog database selector knowledgebase)
+	(import chicken scheme extras r5rs schelog database selector knowledgebase)
 ;utility: query all answers, strip duplicates
 (define (query-strip query)
   (define (accum ls val)
