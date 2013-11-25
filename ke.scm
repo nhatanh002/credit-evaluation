@@ -221,13 +221,7 @@
 ;;;Expert System query module
 ;;credit(Client, Answer/Suggestion)
 
-;utility: query all answers, strip duplicates
-(define (query-strip query)
-  (define (accum ls val)
-    (if (not val) ls
-        (accum (cons val ls) (%more))))
-  (let ((sols (list query)))
-    (strip-duplicates (accum sols (%more)))))
+
 
 ;query for user's statistics
 (define %info
@@ -249,6 +243,14 @@
          (%bank-yield client +yield)
          (%evaluate (profile collateral-rating financial-rating +yield) prof
                     suggestion)]))
+
+;utility: query all answers, strip duplicates
+(define (query-strip query)
+  (define (accum ls val)
+    (if (not val) ls
+        (accum (cons val ls) (%more))))
+  (let ((sols (list query)))
+    (strip-duplicates (accum sols (%more)))))
 
 ;query procedure. returns the stats and suggestion for 'client'.
 ;remove duplicates.
