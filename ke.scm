@@ -343,7 +343,13 @@
 
  
 (define (es:financial-explain client)
-  (display "The financial rating of this client is this way because the rule for collateral rating is:\n")
+  (display "The financial rating of this client is this way because:\n")
+  (display "\tFirst of all, the financial factors considered and their respective weight are:\n")
+  (display "\t\tnet_worth_per_assets = 5\n\t\tlast_year_sales_growth = 1\n\t\tgross_profits_on_sales = 5\n\t\tshort_term_debt_per_annual_sales = 2\n")
+
+  
+  
+  )
   
 
 
