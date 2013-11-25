@@ -119,7 +119,8 @@
                 (display "%")
                 (newline))))
     (for-each fun res))
-  (display "\tThus, the client's financial score, which is calculated all financial factors times their respective weight summed together, is: ")
+  (display "\tThus, the client's financial score, which is calculated by summing together\n
+  all financial factors times their respective weight, is: ")
   (let* ((res (query-strip (%which (score)
                         (%let (factors)
                               (%and (%financial_factors factors)
