@@ -258,7 +258,9 @@
         (fun (lambda(x)
                (for-each (lambda(y) (display y)) x)
                (newline))))
-    (for-each fun (car (query-strip query)))))
+    (for-each fun (car (query-strip query)))
+    (newline)(newline)))
+
 
 (define (es:info client)
   (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
