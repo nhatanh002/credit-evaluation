@@ -5,8 +5,11 @@
 (module explainer *
 	(import chicken scheme extras r5rs schelog database selector knowledgebase)
 ;;explainer
-(define (es:collateral-explain client)
-  (display "The collateral rating of this client is this way because the rule for collateral rating is:\n")
+(define (expl:collateral-explain client)
+  (display "The collateral rating of this client is \[")
+  (display (cadaar (query-strip (%which (rate) (%collateral_rating client rate)))))
+  (display "\] because:\n")
+  (display "\tThe rule for collateral rating is:\n")
   (display "\t excellent if:\n")
   (display "\t\t first_class >= 100% OR\n")
   (display "\t\t first_class >= 70%, first_class + second_class >= 100%\n")
@@ -78,8 +81,8 @@
   )
 
  
-(define (es:financial-explain client)
-  (display "The financial rating of this client is this way because:\n")
+(define (expl:financial-explain client)
+  (display "Explaination for the financial rating of this client:\n")
   (display "\tFirst of all, the financial factors considered and their respective weight are:\n")
   (display "\t\tnet_worth_per_assets = 5\n\t\tlast_year_sales_growth = 1\n\t\tgross_profits_on_sales = 5\n\t\tshort_term_debt_per_annual_sales = 2\n")
   (display "\tThe financial status of this client for each factor are:\n")
@@ -114,8 +117,9 @@
     (display "\t\t bad if score <= -500")
 
     (newline)
-    (display "\tThus the financial rating of the client is indeed ")
+    (display "\tThus the financial rating of the client is indeed \[")
     (display rating)
+    (display "\]")
     (newline))
   )
 )  
