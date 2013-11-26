@@ -150,7 +150,7 @@
          (%>= score 1000)]))
 
 ;;financial rating:
-;;financial_rating(Rlient, Rating): qualitative description
+;;financial_rating(Client, Rating): qualitative description
 ;;assessing the financial record offered by Client to support
 ;;the request for credit
 
@@ -229,18 +229,6 @@
 ;;;Expert System query module
 ;;credit(Client, Answer/Suggestion)
 
-
-
-;query for user's statistics
-(define %info
-  (%rel (client collateral-rating financial-rating +yield prof)
-        [(client prof collateral-rating financial-rating +yield)
-         (%ok-profile client prof)
-         (%collateral_rating client collateral-rating)
-         (%financial_rating client financial-rating)
-         (%bank-yield client +yield)
-         ]))
-
 ;main query: query for stats and suggestion
 (define %credit
   (%rel (client suggestion collateral-rating financial-rating +yield prof)
@@ -268,6 +256,7 @@
                                    (%is Client client)
                                    (%requested-credit client Requested))))
         (fun (lambda(x)
+	       (display "\t")
                (for-each (lambda(y) (display y) (display " ")) x)
                (newline))))
     (newline)
@@ -286,12 +275,6 @@
     (for-each fun (query-strip query))
     (newline)))
 
-(define (es:info client)
-  (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
-                             (%and (%info client Ok-profile? Collateral-rating= Financial-rating= Yield=)
-                                   (%is Client= client)
-                                   (%requested-credit client Requested=)))))
-    (query-strip query)))
 
 )
 
