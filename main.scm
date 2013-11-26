@@ -3,7 +3,7 @@
 (require 'selector)
 (require 'knowledgebase)
 (require 'explainer)
-(require 'querier_
+(require 'querier)
 (import schelog database selector knowledgebase explainer querier)
 (use readline)
 (current-input-port (make-gnu-readline-port))

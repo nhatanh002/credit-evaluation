@@ -39,3 +39,4 @@
     (for-each fun (query-strip query))
     (newline)))
 
+)
