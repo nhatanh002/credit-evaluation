@@ -2,7 +2,7 @@
 (require 'selector)
 (require 'knowledgebase)
 (module querier *
-	(import chicken scheme extras r5rs schelog selector knowledgebase) 
+	(import chicken scheme extras schelog selector knowledgebase) 
 	  
 ;utility: query all answers, strip duplicates
 (define (query-strip query)

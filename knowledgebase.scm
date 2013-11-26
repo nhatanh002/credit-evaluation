@@ -2,7 +2,7 @@
 (require 'database)
 (require 'selector)
 (module knowledgebase *
-	(import chicken scheme extras r5rs database schelog selector)
+	(import chicken scheme extras database schelog selector)
 ;;(evaluate Profile Outcome)
 
 (define %bank-yield

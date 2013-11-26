@@ -7,7 +7,7 @@
 
 ;logic variables and their manipulation
 (module schelog * 
-	(import chicken scheme r5rs extras )
+	(import chicken scheme extras )
 	
 
 (define schelog:*ref* "ref")

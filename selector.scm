@@ -1,7 +1,7 @@
 (require 'schelog)
 (require 'database)
 (module selector (%amount %value %ok-profile %bankyield %requested-credit)
-	(import database schelog chicken scheme r5rs)
+	(import database schelog chicken scheme )
 (define %amount
   (%rel (a b c d e f g h i k l m n p q val)
         [('local_currency_deposits a val)

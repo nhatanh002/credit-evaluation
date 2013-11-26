@@ -1,7 +1,6 @@
 (require 'schelog)
 (module database (%userdb %user-list read-db)
-	(import chicken scheme r5rs extras readline)
-	(import schelog)
+	(import chicken scheme extras readline schelog)
 (define %userdb %empty-rel)
 (define %user-list '())
 (set! *schelog-use-occurs-check?* #t)

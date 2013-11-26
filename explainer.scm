@@ -4,7 +4,7 @@
 (require 'knowledgebase)
 (require 'querier)
 (module explainer *
-	(import chicken scheme extras r5rs schelog database selector knowledgebase querier)
+	(import chicken scheme extras schelog database selector knowledgebase querier)
 ;;explainer
 (define (expl:collateral-explain client)
   (display "\tThe collateral rating of this client is \[")
