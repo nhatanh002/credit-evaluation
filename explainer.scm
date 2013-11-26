@@ -170,7 +170,7 @@
 		   (display "\t\tfinancial rating >= good, bank yield rating >= reasonable\n")
 		   (display "\t\tAsk-superior-for-direction if collateral rating > good,\n")
 		   (display "\t\tfinancial rating < good, bank yield >= reasonable OR\n")
-		   (display "\t\tCollateral rating < good, financial rating > good,\b")
+		   (display "\t\tCollateral rating < good, financial rating > good,\n")
 		   (display "\t\tbank yield >= reasonable\n")    
 		   (display "\t\tOtherwise, refuse-credit-request\n")
                    (newline)
