@@ -5,6 +5,20 @@
 	(import chicken scheme extras r5rs database schelog selector)
 ;;(evaluate Profile Outcome)
 
+(define %bank-yield
+  (%rel (client rating yield)
+	[(client 'excellent)
+	 (%bankyield client yield)
+	 (%>= yield 11.8)]
+	[(client 'reasonable)
+	 (%bankyield client yield)
+	 (%< yield 11.8)
+	 (%>= yield 5.3)
+	 ]
+	[(client 'poor)
+	 (%bankyield client yield)
+	 (%< yield 5.3)]))
+
 (define (condition Type Test Rating)
   (vector 'condition Type Test Rating))
 

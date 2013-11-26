@@ -1,6 +1,6 @@
 (require 'schelog)
 (require 'database)
-(module selector (%amount %value %ok-profile %bank-yield %requested-credit)
+(module selector (%amount %value %ok-profile %bankyield %requested-credit)
 	(import database schelog chicken scheme r5rs)
 (define %amount
   (%rel (a b c d e f g h i k l m n p q val)
@@ -41,19 +41,7 @@
         [(a yield=)
          (%userdb a b c d e f g h (cons 'bank-yield yield=) k l m n p q)]))
 
-(define %bank-yield
-  (%rel (client rating yield)
-	[(client 'excellent)
-	 (%bankyield client yield)
-	 (%>= yield 11.8)]
-	[(client 'reasonable)
-	 (%bankyield client yield)
-	 (%< yield 11.8)
-	 (%>= yield 5.3)
-	 ]
-	[(client 'poor)
-	 (%bankyield client yield)
-	 (%< yield 5.3)]
+
 (define %requested-credit
   (%rel (credit= a b c d e f g h i k l m n p q)
         [(a credit=)
