@@ -30,31 +30,31 @@
         [( (list (condition 'collateral '>= 'excellent)
               (condition 'finances '>= 'good)
               (condition 'yield '>= 'reasonable))
-           'give_credit)]
+           'accept-credit-request)]
         [( (list (condition 'collateral '= 'good)
                  (condition 'finances '= 'good)
                  (condition 'yield '>= 'reasonable))
-           'consult_superior)]
+           'accept-credit-request)]
         [( (list (condition 'collateral '> 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '>= 'reasonable))
-           'consult_superior)]
+           'ask-superior)]
         [( (list (condition 'collateral '< 'good)
                  (condition 'finances '> 'good)
                  (condition 'yield '>= 'reasonable))
-           'consult_superior)]
+           'ask-superior)]
         [( (list (condition 'collateral '> 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '< 'reasonable))
-           'refuse_credit)]
+           'refuse-credit-request)]
                 [( (list (condition 'collateral '< 'good)
                  (condition 'finances '> 'good)
                  (condition 'yield '< 'reasonable))
-           'refuse_credit)]
+           'refuse-credit-request)]
         [( (list (condition 'collateral '=< 'moderate)
                  (condition 'finances '=< 'medium)
                  any )
-           'refuse_credit)]))
+           'refuse-credit-request)]))
 
 (define %scale
   (%rel ()
@@ -115,7 +115,7 @@
         [(+profile 'ok answer)
          (%rule +conditions answer)
          (%verify +conditions +profile)]
-	[(any 'not-ok 'refuse_credit)]
+	[(any 'not-ok 'refuse-credit-request)]
 	))
 
 ;; Bank data - Weighting Factors
@@ -263,26 +263,28 @@
 ;query procedure. returns the stats and suggestion for 'client'.
 ;remove duplicates.
 (define (es:query client)
-  (let ((query (%which (Client= ?Ok-profile= Requested= Collateral-rating= Financial-rating= Yield= Suggestion=)
-                             (%and (%credit client ?Ok-profile= Collateral-rating= Financial-rating= Yield= Suggestion=)
-                                   (%is Client= client)
-                                   (%requested-credit client Requested=))))
+  (let ((query (%which (Client Ok-profile Requested Collateral-rating Financial-rating Yield Suggestion)
+                             (%and (%credit client Ok-profile Collateral-rating Financial-rating Yield Suggestion)
+                                   (%is Client client)
+                                   (%requested-credit client Requested))))
         (fun (lambda(x)
-               (for-each (lambda(y) (display y)) x)
+               (for-each (lambda(y) (display y) (display " ")) x)
                (newline))))
+    (newline)
     (for-each fun (car (query-strip query)))
-    (newline)(newline)))
+    (newline)))
 
 (define (es:outcome outcome)
-  (let ((query (%which (Client= Requested=)
+  (let ((query (%which (Client Requested)
 		       (%let (?Ok-profile= Collateral-rating= Financial-rating= Yield=)
-                             (%and (%credit Client= ?Ok-profile= Collateral-rating= Financial-rating= Yield= outcome)
-                                   (%requested-credit Client= Requested=)))))
+                             (%and (%credit Client ?Ok-profile= Collateral-rating= Financial-rating= Yield= outcome)
+                                   (%requested-credit Client Requested)))))
         (fun (lambda(x)
-               (for-each (lambda(y) (display y)) x)
+               (for-each (lambda(y) (display (car y)) (display " = ") (display (cadr y)) (display " ")) x)
                (newline))))
-    (for-each fun (car (query-strip query)))
-    (newline)(newline)))
+    (newline)
+    (for-each fun (query-strip query))
+    (newline)))
 
 (define (es:info client)
   (let ((query (%which (Client= Ok-profile? Requested= Collateral-rating= Financial-rating= Yield= )
