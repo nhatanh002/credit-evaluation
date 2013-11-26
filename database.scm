@@ -8,6 +8,10 @@
   (define (read-a-list filename)
   (call-with-input-file filename
     (lambda (k) (read k))))
+  (define foldl (lambda (fx acc ls) 
+  	(if (null? ls)
+	  	acc
+		(foldl fx (fx acc (car ls)) (cdr ls)))))
   (set! %userdb %empty-rel)
   (let ((fun (lambda (ls) (eval (list '%assert '%userdb '() ls))))
         (template (cdr (read-a-list filename)))
