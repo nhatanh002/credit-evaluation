@@ -1,11 +1,11 @@
-#credit-evaluation
-#=================
+credit-evaluation
+=================
 
 A credit evaluation expert system written in R5RS Scheme
 
-#==================
-#INSTALLATION GUIDE
-#==================
+==================
+INSTALLATION GUIDE
+==================
 Generally, first you should install the Chicken implementation of the Revised^5 Report
 of the Scheme language. Then you install the required readline ``egg'' for Chicken.
 Readline is simply a package for I/O, and has nothing to do with the 
@@ -54,9 +54,9 @@ More information at http://wiki.call-cc.org/platforms#mac-os-x
 Using MS Windows is not recommended.
 Installer for Windows: http://www.kiatoa.com/cgi-bin/chicken-iup/home
 
-#==============================
-#USING CREDIT EVALUATION SYSTEM
-#==============================
+==============================
+USING CREDIT EVALUATION SYSTEM
+==============================
 
 Just load main.scm into Chicken and run!
 
