@@ -14,11 +14,12 @@ knowledge-engineering aspect of the system.
 # Linux
 
 For Debian/Ubuntu users:
-;installing Chicken
+
+[installing Chicken]
 
 user@localhost $ sudo apt-get install chicken-bin libchicken-dev libchicken6
 
-;installing readline
+[installing readline]
 
 user@localhost $ sudo chicken-install readline
 
