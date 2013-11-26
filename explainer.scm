@@ -188,7 +188,7 @@
                    (display "\t\t poor if yield < 5.3%\n")
                    (display "------------------------------------------\n")
                    (newline)
-                   (return 'successed!)
+                   (return 'succeeded!)
                    )))))
       
 )  
