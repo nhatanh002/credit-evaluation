@@ -15,12 +15,17 @@ knowledge-engineering aspect of the system.
 
 For Debian/Ubuntu users:
 ;installing Chicken
+
 user@localhost $ sudo apt-get install chicken-bin libchicken-dev libchicken6
+
 ;installing readline
+
 user@localhost $ sudo chicken-install readline
 
 For Fedora/Redhat users:
+
 $ sudo yum install chicken
+
 $ sudo chicken-install readline
 
 and so on...
@@ -44,8 +49,11 @@ For DragonFly BSD, you can use the lang/chicken package from pkgsrc to install t
 # MacOSX
 
 If you're using MacPorts, installation is very simple:
+
 $sudo port install chicken
+
 $port install readline 
+
 $chicken-install readline
 
 More information at http://wiki.call-cc.org/platforms#mac-os-x
