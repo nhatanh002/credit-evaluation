@@ -11,7 +11,7 @@ of the Scheme language. Then you install the required readline ``egg'' for Chick
 Readline is simply a package for I/O, and has nothing to do with the 
 knowledge-engineering aspect of the system.
 
-# Linux:
+# Linux
 
 For Debian/Ubuntu users:
 ;installing Chicken
