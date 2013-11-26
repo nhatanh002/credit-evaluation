@@ -130,8 +130,8 @@
   (call/cc (lambda(return)
              (if (not (%which() (%ok-profile client 'ok)))
                  (begin
-                   (display "Credit refused because the client has problematic profile\n")
-                   (return "\[refuse credit\]"))
+                   (display "Credit request refused because the client has problematic profile\n")
+                   (return "\[Credit request refused\]"))
                  (let* ((sug-ls (query-strip (%which (suggest)
                                       (%let (prof coll fin ye)
                                             (%credit client prof coll fin ye suggest)))))
@@ -164,12 +164,9 @@
                    (display yie)
                    (display "\]\n")
 		   (display "\tAnd the rule to decide whether to accept a credit request or not:\n")
-		   (display "\t\t accept-credit-request if collateral rating >= good,
-			    financial rating >= good, bank yield rating >= reasonable")
-		   (display "\t\t ask-superior-for-direction if collateral rating > good,
-			    financial rating < good, bank yield >= reasonable OR\n
-			    \t\t collateral rating < good, financial rating > good, 
-			    bank yield >= reasonable\n")    
+		   (display "\t\t accept-credit-request if collateral rating >= good, financial rating >= good, bank yield rating >= reasonable")
+		   (display "\t\t ask-superior-for-direction if collateral rating > good, financial rating < good, bank yield >= reasonable OR\n")
+		   (display "\t\t collateral rating < good, financial rating > good, bank yield >= reasonable\n")    
 		   (display "\t\t Otherwise, refuse-credit-request\n")
                    (newline)
                    (display "------------------------------------------\n")
@@ -190,7 +187,7 @@
                    (display "\t\t poor if yield < 5.3%\n")
                    (display "------------------------------------------\n")
                    (newline)
-                   (return)
+                   (return 'successed!)
                    )))))
       
 )  
