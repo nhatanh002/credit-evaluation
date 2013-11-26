@@ -1,22 +1,22 @@
-credit-evaluation
-=================
+#credit-evaluation
+#=================
 
 A credit evaluation expert system written in R5RS Scheme
 
-==================
-INSTALLATION GUIDE
-==================
+#==================
+#INSTALLATION GUIDE
+#==================
 Generally, first you should install the Chicken implementation of the Revised^5 Report
 of the Scheme language. Then you install the required readline ``egg'' for Chicken.
 Readline is simply a package for I/O, and has nothing to do with the 
 knowledge-engineering aspect of the system.
 
-;;;Linux:
+# Linux:
 
 For Debian/Ubuntu users:
-# installing Chicken
+;installing Chicken
 user@localhost $ sudo apt-get install chicken-bin libchicken-dev libchicken6
-# installing readline
+;installing readline
 user@localhost $ sudo chicken-install readline
 
 For Fedora/Redhat users:
@@ -30,7 +30,7 @@ distro's repository, and use your respective package manager to install. You can
 build Chicken from source yourself, and install readline egg normally like the above 
 examples.
 
-;;;BSDs
+# BSDs
 
 For FreeBSD, you can use the lang/chicken port to install the latest stable release.
 
@@ -41,7 +41,7 @@ $ pkg_add chicken
 
 For DragonFly BSD, you can use the lang/chicken package from pkgsrc to install the latest stable release.
 
-;;;MacOSX
+# MacOSX
 
 If you're using MacPorts, installation is very simple:
 $sudo port install chicken
@@ -50,14 +50,15 @@ $chicken-install readline
 
 More information at http://wiki.call-cc.org/platforms#mac-os-x
 
-;;;Microsoft Windows
+# Microsoft Windows
 Using MS Windows is not recommended.
 Installer for Windows: http://www.kiatoa.com/cgi-bin/chicken-iup/home
 
-==============================
-USING CREDIT EVALUATION SYSTEM
-==============================
+#==============================
+#USING CREDIT EVALUATION SYSTEM
+#==============================
 
 Just load main.scm into Chicken and run!
+
 $ csi main.scm
 
