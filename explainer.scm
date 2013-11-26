@@ -163,6 +163,14 @@
                    (display "\tThe user's bank yield rating is \[")
                    (display yie)
                    (display "\]\n")
+		   (display "\tAnd the rule to decide whether to accept a credit request or not:\n")
+		   (display "\t\t accept-credit-request if collateral rating >= good,
+			    financial rating >= good, bank yield rating >= reasonable")
+		   (display "\t\t ask-superior-for-direction if collateral rating > good,
+			    financial rating < good, bank yield >= reasonable OR\n
+			    \t\t collateral rating < good, financial rating > good, 
+			    bank yield >= reasonable\n")    
+		   (display "\t\t Otherwise, refuse-credit-request\n")
                    (newline)
                    (display "------------------------------------------\n")
                    (expl:collateral-explain client)

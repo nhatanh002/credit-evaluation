@@ -38,11 +38,11 @@
         [( (list (condition 'collateral '> 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '>= 'reasonable))
-           'ask-superior)]
+           'ask-superior-for-direction)]
         [( (list (condition 'collateral '< 'good)
                  (condition 'finances '> 'good)
                  (condition 'yield '>= 'reasonable))
-           'ask-superior)]
+           'ask-superior-for-direction)]
         [( (list (condition 'collateral '> 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '< 'reasonable))
