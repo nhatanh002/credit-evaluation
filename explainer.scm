@@ -154,6 +154,7 @@
                    (display "\] is \[")
                    (display sug)
                    (display "\] because:\n")
+		   (newline)
                    (display "\tThe user has ok profile\n")
                    (display "\tThe user's collateral rating is \[")
                    (display coll)
