@@ -53,3 +53,11 @@ More information at http://wiki.call-cc.org/platforms#mac-os-x
 ;;;Microsoft Windows
 Using MS Windows is not recommended.
 Installer for Windows: http://www.kiatoa.com/cgi-bin/chicken-iup/home
+
+==============================
+USING CREDIT EVALUATION SYSTEM
+==============================
+
+Just load main.scm into Chicken and run!
+$ csi main.scm
+
