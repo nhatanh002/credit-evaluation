@@ -7,7 +7,7 @@
          '(stocks . 9000) ;f
          '(mortage . 12000) ;g
          '(documents . 14000) ;h
-         '(bank-yield . excellent) ;i
+         '(bank-yield . 12.0) ;i
          '(requested-credit . 50000) ;k
          '(ok-profile . ok) ;l
          '(net_worth_per_assets . 40) ;m
@@ -24,7 +24,7 @@
          '(stocks . 900) ;f
          '(mortage . 1200) ;g
          '(documents . 1400) ;h
-         '(bank-yield . excellent) ;i
+         '(bank-yield . 6.5) ;i
          '(requested-credit . 5000) ;k
          '(ok-profile . ok) ;l
          '(net_worth_per_assets . 4) ;m
@@ -41,7 +41,7 @@
          '(stocks . 900) ;f
          '(mortage . 1200) ;g
          '(documents . 1400) ;h
-         '(bank-yield . excellent) ;i
+         '(bank-yield . 5.4) ;i
          '(requested-credit . 20000) ;k
          '(ok-profile . ok) ;l
          '(net_worth_per_assets . 4) ;m
@@ -58,7 +58,7 @@
          '(stocks . 900) ;f
          '(mortage . 1200) ;g
          '(documents . 1400) ;h
-         '(bank-yield . 'good) ;i
+         '(bank-yield . 3.0) ;i
          '(requested-credit . 2000) ;k
          '(ok-profile . not-ok) ;l
          '(net_worth_per_assets . 4) ;m

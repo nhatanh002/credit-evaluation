@@ -36,11 +36,24 @@
         [(a prof)
          (%userdb a b c d e f g h i k (cons 'ok-profile prof) m n p q)]))
 
-(define %bank-yield
+(define %bankyield
   (%rel (yield= a b c d e f g h i k l m n p q)
         [(a yield=)
          (%userdb a b c d e f g h (cons 'bank-yield yield=) k l m n p q)]))
 
+(define %bank-yield
+  (%rel (client rating yield)
+	[(client 'excellent)
+	 (%bankyield client yield)
+	 (%>= yield 11.8)]
+	[(client 'reasonable)
+	 (%bankyield client yield)
+	 (%< yield 11.8)
+	 (%>= yield 5.3)
+	 ]
+	[(client 'poor)
+	 (%bankyield client yield)
+	 (%< yield 5.3)]
 (define %requested-credit
   (%rel (credit= a b c d e f g h i k l m n p q)
         [(a credit=)
