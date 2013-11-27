@@ -5,7 +5,7 @@
          '(bank_guarantees . 3000) ;d
          '(negotiate_instruments . 5000) ;e
          '(stocks . 9000) ;f
-         '(mortage . 12000) ;g
+         '(mortgage . 12000) ;g
          '(documents . 14000) ;h
          '(bank-yield . 12.0) ;i yield percentage for bank. based on credit/other transactions history.
          '(requested-credit . 50000) ;k: same unit as b -> h
@@ -22,7 +22,7 @@
          '(bank_guarantees . 390) ;d
          '(negotiate_instruments . 500) ;e
          '(stocks . 1200) ;f
-         '(mortage . 3100) ;g
+         '(mortgage . 3100) ;g
          '(documents . 1200) ;h
          '(bank-yield . 6.5) ;i
          '(requested-credit . 5000) ;k
@@ -39,7 +39,7 @@
          '(bank_guarantees . 300) ;d
          '(negotiate_instruments . 500) ;e
          '(stocks . 900) ;f
-         '(mortage . 1200) ;g
+         '(mortgage . 1200) ;g
          '(documents . 1400) ;h
          '(bank-yield . 5.4) ;i
          '(requested-credit . 20000) ;k
@@ -56,7 +56,7 @@
          '(bank_guarantees . 300) ;d
          '(negotiate_instruments . 500) ;e
          '(stocks . 900) ;f
-         '(mortage . 1200) ;g
+         '(mortgage . 1200) ;g
          '(documents . 1400) ;h
          '(bank-yield . 3.0) ;i
          '(requested-credit . 2000) ;k

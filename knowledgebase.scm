@@ -169,7 +169,7 @@
         [('negotiate_instruments 'second_class)]
 	[('stocks 'second_class)]
 	[('documents 'illiquid)]
-        [('mortage 'illiquid)]))
+        [('mortgage 'illiquid)]))
 ;;Evaluation rules
 
 (define %collateral_evaluation

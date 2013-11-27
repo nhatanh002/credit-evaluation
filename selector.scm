@@ -14,8 +14,8 @@
          (%userdb a b c d (cons 'negotiate_instruments val) f g h i k l m n p q)]
         [('stocks a val)
          (%userdb a b c d e (cons 'stocks val) g h i k l m n p q)]
-        [('mortage a val)
-         (%userdb a b c d e f (cons 'mortage val) h i k l m n p q)]
+        [('mortgage a val)
+         (%userdb a b c d e f (cons 'mortgage val) h i k l m n p q)]
         [('documents a val)
          (%userdb a b c d e f g (cons 'documents val) i k l m n p q)]))
 
