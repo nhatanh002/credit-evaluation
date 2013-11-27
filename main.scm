@@ -44,7 +44,7 @@
 			  (loop))
 			(begin
 			  (newline)
-			  (display "The evaluation customer \[")
+			  (display "The evaluation of customer \[")
 			  (display name)
 			  (display "\] according to the expert system:\n")
 			  (es:query name))))]
