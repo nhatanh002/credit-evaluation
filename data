@@ -1,25 +1,25 @@
 [DATABASE
 [('client1 ;a
-         '(local_currency_deposits . 30000) ;b
+         '(local_currency_deposits . 30000) ;b     unit(from b -> h, and k): supposedly $
          '(foreign_currency_deposits . 20000) ;c
          '(bank_guarantees . 3000) ;d
          '(negotiate_instruments . 5000) ;e
          '(stocks . 9000) ;f
          '(mortage . 12000) ;g
          '(documents . 14000) ;h
-         '(bank-yield . 12.0) ;i
+         '(bank-yield . 12.0) ;i yield for bank in %. based on credit/other transactions history.
          '(requested-credit . 50000) ;k
          '(ok-profile . ok) ;l
          '(net_worth_per_assets . 40) ;m = (net assets - liabilities)/assets
-         '(last_year_sales_growth . 20);n sales = revenue by selling. growth = rate of revenue growth
+         '(last_year_sales_growth . 20);n = sales = revenue by selling. growth = rate of revenue growth
          '(gross_profits_on_sales . 45) ;p = gross-profts/net-sales = gross profits margin
          '(short_term_debt_per_annual_sales . 9) ;q = short-term-debt/sales within one year
          )]
 
 [('client2 ;a
-         '(local_currency_deposits . 3000) ;b
-         '(foreign_currency_deposits . 2000) ;c
-         '(bank_guarantees . 300) ;d
+         '(local_currency_deposits . 2500) ;b
+         '(foreign_currency_deposits . 1980) ;c
+         '(bank_guarantees . 390) ;d
          '(negotiate_instruments . 500) ;e
          '(stocks . 900) ;f
          '(mortage . 1200) ;g
