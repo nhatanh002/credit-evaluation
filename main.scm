@@ -33,7 +33,7 @@
 	  (if (or (not (number? x)) (< x 0) (> x 6))
 	    (display "Invalid choice.\n\n")
 	    (cond
-	      [(= x 0) (display "\ngoodbye!") (newline) (quit)]
+	      [(= x 0) (display "\ngoodbye!") (newline) (exit)]
 	      [(= x 1) (newline)(display %user-list) (newline)]
 	      [(= x 2)
 	       (display "\nEnter the name of the customer: \n")
