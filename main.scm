@@ -22,7 +22,7 @@
 	(newline)
 	(display "Choose one of the options below:\n")
 	(display "[1]: Show the list of customers\n")
-	(display "[2]: Ask the expert system for suggestion on a customer request\n")
+	(display "[2]: Ask the expert system for suggestion on a customer's request\n")
 	(display "[3]: Ask for the expert system's explaination of the suggestion for a customer\n")
 	(display "[4]: Show all customers whose requests for credit should be accepted\n") 
 	(display "[5]: Show all customers whose requests for credit should NOT be accepted\n")
