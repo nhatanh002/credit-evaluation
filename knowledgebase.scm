@@ -167,6 +167,8 @@
         [('local_currency_deposits 'first_class)]
         [('foreign_currency_deposits 'first_class)]
         [('negotiate_instruments 'second_class)]
+	[('stocks 'second_class)]
+	[('documents 'illiquid)]
         [('mortage 'illiquid)]))
 ;;Evaluation rules
 
