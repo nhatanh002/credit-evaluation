@@ -35,20 +35,20 @@
                  (condition 'finances '= 'good)
                  (condition 'yield '>= 'reasonable))
            'accept-credit-request)]
-        [( (list (condition 'collateral '> 'good)
+        [( (list (condition 'collateral '>= 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '>= 'reasonable))
            'ask-superior-for-direction)]
         [( (list (condition 'collateral '< 'good)
-                 (condition 'finances '> 'good)
+                 (condition 'finances '>= 'good)
                  (condition 'yield '>= 'reasonable))
            'ask-superior-for-direction)]
-        [( (list (condition 'collateral '> 'good)
+        [( (list (condition 'collateral '>= 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '< 'reasonable))
            'refuse-credit-request)]
                 [( (list (condition 'collateral '< 'good)
-                 (condition 'finances '> 'good)
+                 (condition 'finances '>= 'good)
                  (condition 'yield '< 'reasonable))
            'refuse-credit-request)]
         [( (list (condition 'collateral '=< 'moderate)
@@ -183,7 +183,7 @@
          (%is sum1 (+ first_class second_class))
          (%is sum2 (+ first_class second_class illiquid))
          (%> sum1 60)
-         (%< sum1 70)
+         (%< sum1 100)
          (%>= sum2 100)]
 
         [(first_class second_class illiquid 'moderate)

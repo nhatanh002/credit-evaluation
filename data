@@ -18,12 +18,12 @@
 
 [('client2 ;a
          '(local_currency_deposits . 2500) ;b
-         '(foreign_currency_deposits . 1980) ;c
+         '(foreign_currency_deposits . 1300) ;c
          '(bank_guarantees . 390) ;d
          '(negotiate_instruments . 500) ;e
-         '(stocks . 900) ;f
-         '(mortage . 1200) ;g
-         '(documents . 1400) ;h
+         '(stocks . 1200) ;f
+         '(mortage . 3100) ;g
+         '(documents . 1200) ;h
          '(bank-yield . 6.5) ;i
          '(requested-credit . 5000) ;k
          '(ok-profile . ok) ;l
