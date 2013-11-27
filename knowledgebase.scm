@@ -27,14 +27,14 @@
 ;bank data and rules
 (define %rule
   (%rel (any)
-        [( (list (condition 'collateral '>= 'excellent)
+        [( (list (condition 'collateral '>= 'good)
               (condition 'finances '>= 'good)
               (condition 'yield '>= 'reasonable))
            'accept-credit-request)]
-        [( (list (condition 'collateral '= 'good)
-                 (condition 'finances '= 'good)
-                 (condition 'yield '>= 'reasonable))
-           'accept-credit-request)]
+        [( (list (condition 'collateral '>= 'good)
+                 (condition 'finances '>= 'good)
+                 (condition 'yield '< 'reasonable))
+           'ask-superior-for-direction)]
         [( (list (condition 'collateral '>= 'good)
                  (condition 'finances '< 'good)
                  (condition 'yield '>= 'reasonable))
