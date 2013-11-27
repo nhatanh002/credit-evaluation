@@ -10,10 +10,10 @@
          '(bank-yield . 12.0) ;i
          '(requested-credit . 50000) ;k
          '(ok-profile . ok) ;l
-         '(net_worth_per_assets . 40) ;m
-         '(last_year_sales_growth . 20) ;n
-         '(gross_profits_on_sales . 45) ;p
-         '(short_term_debt_per_annual_sales . 9) ;q
+         '(net_worth_per_assets . 40) ;m = (net assets - liabilities)/assets
+         '(last_year_sales_growth . 20);n sales = revenue by selling. growth = rate of revenue growth
+         '(gross_profits_on_sales . 45) ;p = gross-profts/net-sales = gross profits margin
+         '(short_term_debt_per_annual_sales . 9) ;q = short-term-debt/sales within one year
          )]
 
 [('client2 ;a

@@ -134,7 +134,7 @@
         [( (list (cons 'net_worth_per_assets 5)
                  (cons 'last_year_sales_growth 1)
                  (cons 'gross_profits_on_sales 5)
-                 (cons 'short_term_debt_per_annual_sales 2)))]))
+                 (cons 'short_term_debt_per_annual_sales -2)))]))
 
 (define %calibrate
   (%rel (score)
